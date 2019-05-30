@@ -13,18 +13,18 @@
             overflow: hidden;
             width: 100%;
             height: 100%;
-            cursor: none;
-            background: #000;
+            cursor: pointer;
+            background: #fff;
         }
 
         #canvas {
-            background: #000;
+            background-color: #000;
         }
     </style>
 </head>
 
 <body>
-    <canvas id="canvas" width="400" height="400"></canvas>
+    <canvas id="canvas" width="900" height="800"></canvas>
 
     <script>
         var canvas = document.getElementById('canvas'),
@@ -32,10 +32,13 @@
             WIDTH,
             HEIGHT,
             round = [],
-            initRoundPopulation = 80
-        WIDTH = document.documentElement.clientWidth
-        HEIGHT = document.documentElement.clientHeight
+            initRoundPopulation = 800;
 
+        WIDTH = document.documentElement.clientWidth
+        HEIGHT = document.documentElement.clientHeight;
+
+        ctx.width = 900
+        ctx.height = 800
         class Round_item {
             constructor(index, x, y) {
                 console.log(WIDTH, HEIGHT)
@@ -54,14 +57,30 @@
                 ctx.closePath()
                 ctx.fill()
             }
+            move() {
+                this.y -= 0.5
+                if (this.y <= -10) {
+                    this.y = 800 + 10
+                }
+                this.draw()
+            }
+        }
+        function animate() {
+            ctx.clearRect(0, 0, WIDTH, HEIGHT)
+            for (var i in round) {
+                round[i].move()
+            }
+            requestAnimationFrame(animate)
         }
         function init() {
             for (var i = 0; i < initRoundPopulation; i++) {
                 round[i] = new Round_item(i, Math.random() * WIDTH, Math.random() * HEIGHT);
                 round[i].draw();
             }
+            // animate()
         }
         init();
+
 
     </script>
 </body>
